@@ -2,11 +2,15 @@
 /**
  * Footer template
  * 
- * @pacakge Naval Architecture
+ * @package Naval Architecture
  */
 
  ?>
 
   <footer>Footer</footer>
+
+  <?php 
+    wp_footer(); 
+  ?>
 </body>
 </html>
