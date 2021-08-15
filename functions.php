@@ -8,7 +8,7 @@
 
 
 /**
- * @return string handle name for the bootstrap css and js that you can register
+ * @return string[][] handle name for the bootstrap css and js that you can register
  */
 function naval_register_bootstrap() {
   $handle_name = 'bootstrap';
@@ -24,6 +24,11 @@ function naval_register_bootstrap() {
     false
   );
 
+  wp_register_style(
+    $handle_name . '-icons',
+    "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css",
+    [$handle_name],
+  );
 
   // Register Scripts
   wp_register_script(
@@ -34,7 +39,15 @@ function naval_register_bootstrap() {
     true
   );
 
-  return $handle_name;
+  return [
+    'scripts' => [
+      $handle_name
+    ],
+    'styles' => [
+      $handle_name,
+      $handle_name . '-icons'
+    ]
+  ];
 }
 
 function naval_arch_enqueue_scripts()
@@ -70,9 +83,13 @@ function naval_arch_enqueue_scripts()
   // Register bootstrap
   $bootstrap_handle_name = naval_register_bootstrap();
 
-  wp_enqueue_style($bootstrap_handle_name);
+  foreach ($bootstrap_handle_name["styles"] as $key) {
+    wp_enqueue_style($key);
+  }
+  foreach ($bootstrap_handle_name["scripts"] as $key) {
+    wp_enqueue_style($key);
+  }
   wp_enqueue_style('main');
-  wp_enqueue_script($bootstrap_handle_name);
   wp_enqueue_script('main');
 }
 
